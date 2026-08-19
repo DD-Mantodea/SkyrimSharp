@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SkyrimSharpLoader.Compat.OStim.OStimStructures;
+using SkyrimSharpLoader.Internal;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace SkyrimSharpLoader.Compat.OStim
 {
@@ -31,7 +33,18 @@ namespace SkyrimSharpLoader.Compat.OStim
             {
                 var json = File.ReadAllText(sceneFile);
 
-                var scene = JsonConvert.DeserializeObject<OStimScene>(json);
+                OStimScene? scene = null;
+
+                try
+                {
+                    scene = JsonConvert.DeserializeObject<OStimScene>(json);
+                }
+                catch
+                {
+                    Logger.Error($"Error when deserialize OStim scene {sceneFile}");
+
+                    continue;
+                }
 
                 if (scene == null)
                     continue;
@@ -55,7 +68,18 @@ namespace SkyrimSharpLoader.Compat.OStim
             {
                 var json = File.ReadAllText(actionFile);
 
-                var action = JsonConvert.DeserializeObject<OStimAction>(json);
+                OStimAction? action = null;
+
+                try
+                {
+                    action = JsonConvert.DeserializeObject<OStimAction>(json);
+                }
+                catch
+                {
+                    Logger.Error($"Error when deserialize OStim scene {actionFile}");
+
+                    continue;
+                }
 
                 if (action == null)
                     continue;

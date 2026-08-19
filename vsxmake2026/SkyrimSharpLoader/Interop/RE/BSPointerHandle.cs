@@ -1,4 +1,6 @@
-﻿namespace SkyrimSharpLoader.Interop.RE
+﻿global using ObjectRefHandle = SkyrimSharpLoader.Interop.RE.BSPointerHandle<SkyrimSharpLoader.Interop.RE.TESObjectREFR.Internal>;
+
+namespace SkyrimSharpLoader.Interop.RE
 {
     public unsafe struct BSPointerHandle<T> where T : unmanaged
     {

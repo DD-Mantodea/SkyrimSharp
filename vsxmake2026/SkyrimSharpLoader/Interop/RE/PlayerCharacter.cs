@@ -33,7 +33,7 @@ namespace SkyrimSharpLoader.Interop.RE
         {
             internal BSTSmallArray<hkRefPtr<bhkMouseSpringAction.Internal>>.Internal GrabSpring;
 
-            internal BSPointerHandle<TESObjectREFR.Internal> GrabbedObject;
+            internal ObjectRefHandle GrabbedObject;
 
             internal float GrabObjectWeight;
 
@@ -61,6 +61,9 @@ namespace SkyrimSharpLoader.Interop.RE
             internal BSTEventSink<UserEventEnabledEvent>.Internal Base_6;
 
             internal BSTEventSink<TESTrackedStatsEvent>.Internal Base_7;
+
+            internal bool Activate(TESObjectREFR.Internal* a_targetRef, TESObjectREFR.Internal* a_activatorRef, byte a_arg3, TESBoundObject.Internal* a_object, int a_targetCount)
+                => Base_0.Activate(a_targetRef, a_activatorRef, a_arg3, a_object, a_targetCount);
         }
 
         public nint Native { get; } = new(ptr);
@@ -89,6 +92,9 @@ namespace SkyrimSharpLoader.Interop.RE
                 return new(_singletonPtr);
             }
         }
+
+        public bool Activate(TESObjectREFR targetRef, TESObjectREFR activatorRef, byte arg3, TESBoundObject obj, int targetCount)
+            => ((Internal*)Native.ToPointer())->Activate(targetRef, activatorRef, arg3, obj, targetCount);
     }
 
     public interface IPlayerCharacter :

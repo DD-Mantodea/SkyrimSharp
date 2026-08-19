@@ -118,9 +118,50 @@ namespace SkyrimSharpLoader.Interop.RE
             kDontHavokSettle = 1 << 29
         }
 
+        public struct ACTOR_RUNTIME_DATA
+        {
+            public BOOL_BITS BoolBits;
+
+            public float UpdateTargetTimer;
+
+            public ACTOR_CRITICAL_STAGE CriticalStage;
+
+            public uint pad0EC;
+
+            public void* CurrentProcess;
+
+            public ObjectRefHandle DialogueItemTarget;
+
+            public BSPointerHandle<Internal> CurrentCombatTarget;
+
+            public BSPointerHandle<Internal> MyKiller;
+
+            public float CheckMyDeadBodyTimer;
+
+            public float VoiceTimer;
+
+            public float UnderWaterTimer;
+
+            public int ThiefCrimeStamp;
+
+            public int ActionValue;
+
+            public float TimerOnAction;
+
+            public uint unk11C;
+
+            public NiPoint3 EditorLocCoord;
+
+            public float EditorLocRot;
+
+            public TESForm* EditorLocForm;
+
+            public BGSLocation.Internal* EditorLocation;
+        }
+
         public static FormType FormType = FormType.ActorCharacter;
 
-        [StructLayout(LayoutKind.Sequential, Pack = 8, Size = 0xC0)]
+        [StructLayout(LayoutKind.Sequential, Pack = 8, Size = 0xD0)]
         public struct Internal
         {
             internal TESObjectREFR.Internal Base_0;
@@ -162,5 +203,19 @@ namespace SkyrimSharpLoader.Interop.RE
         IActorState,
         IBSTEventSink<BSTransformDeltaEvent>,
         IBSTEventSink<bhkCharacterMoveFinishEvent>,
-        IIPostAnimationChannelUpdateFunctor;
+        IIPostAnimationChannelUpdateFunctor
+    {
+        bool Activate(TESObjectREFR targetRef, TESObjectREFR activatorRef, byte arg3, TESBoundObject obj, int targetCount);
+    }
+
+    public enum ACTOR_CRITICAL_STAGE
+    {
+        kNone = 0,
+		kGooStart = 1,
+		kGooEnd = 2,
+		kDisintegrateStart = 3,
+		kDisintegrateEnd = 4,
+
+		kTotal
+    };
 }

@@ -74,7 +74,6 @@ static void SKSEMessageHandler(SKSE::MessagingInterface::Message* a_msg)
 
 	case SKSE::MessagingInterface::kInputLoaded:
 	{
-
 		auto inputDeviceManager = RE::BSInputDeviceManager::GetSingleton();
 
 		if (inputDeviceManager)
@@ -107,10 +106,13 @@ SKSEPluginLoad(const SKSE::LoadInterface* a_skse)
 	Runtime::initialize();
 
 	auto messaging = SKSE::GetMessagingInterface();
+
 	if (!messaging->RegisterListener("SKSE", SKSEMessageHandler)) {
-		logs::error("Failed to register message listener");
+		logs::error("Failed to register message listener.");
 		return false;
 	}
+
+	logs::info("Register message listener successfully.");
 
 	auto papyrus = SKSE::GetPapyrusInterface();
 

@@ -23,7 +23,17 @@ namespace SkyrimSharpLoader.Interop.RE
 
             internal void* LoadedData;
 
-            internal ExtraDataList* ExtraList;
+            internal ExtraDataList ExtraList;
+
+            internal ulong unk88;
+
+            internal ushort RefScale;
+
+            internal byte ModelState;
+
+            internal bool PreDestroyed;
+
+            internal uint pad94;
 
             internal bool Activate(Internal* a_targetRef, Internal* a_activatorRef, byte a_arg3, TESBoundObject.Internal* a_object, int a_targetCount)
                 => Base_0.Activate(a_targetRef, a_activatorRef, a_arg3, a_object, a_targetCount);

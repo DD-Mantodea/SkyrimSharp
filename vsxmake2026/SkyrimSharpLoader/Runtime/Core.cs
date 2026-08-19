@@ -14,11 +14,22 @@ namespace SkyrimSharpLoader.Runtime
 
         public static int Initialize(IntPtr args, int sizeBytes)
         {
-            Logger.Info("SkyrimSharpLoader initialized.");
+            try
+            {
+                Logger.Info("SkyrimSharpLoader initialized.");
 
-            OStim.Initialize();
+                OStim.Initialize();
 
-            OSceneSelector.Initialize();
+                Logger.Info("OStim compat initialized");
+
+                OSceneSelector.Initialize();
+
+                Logger.Info("OSceneSelector compat initialized");
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message + e.StackTrace);
+            }
 
             return 0;
         }

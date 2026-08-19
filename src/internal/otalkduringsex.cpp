@@ -168,12 +168,16 @@ namespace SharpInternal::OTalkDuringSex
 				if (!mod)
 					return RE::BSEventNotifyControl::kContinue;
 
-				auto sameSceneOnly = Utils::GetFormByFromID(mod, 0x804)->As<RE::TESGlobal>();
+				auto sameSceneOnlyForm = Utils::GetFormByFromID(mod, 0x804);
 
-				auto enableKey = Utils::GetFormByFromID(mod, 0x809)->As<RE::TESGlobal>();
+				auto enableKeyForm = Utils::GetFormByFromID(mod, 0x809);
 
-				if (!sameSceneOnly || !enableKey)
+				if (!sameSceneOnlyForm || !enableKeyForm)
 					return RE::BSEventNotifyControl::kContinue;
+
+				auto sameSceneOnly = sameSceneOnlyForm->As<RE::TESGlobal>();
+
+				auto enableKey = enableKeyForm->As<RE::TESGlobal>();
 
 				if (buttonEvent->GetIDCode() == enableKey->value && buttonEvent->IsUp())
 				{

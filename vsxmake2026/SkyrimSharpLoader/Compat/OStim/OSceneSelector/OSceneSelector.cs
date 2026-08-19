@@ -3,6 +3,7 @@ using SkyrimSharpLoader.Compat.OStim.OStimStructures;
 using SkyrimSharpLoader.Extensions;
 using SkyrimSharpLoader.Internal;
 using System.Runtime.CompilerServices;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace SkyrimSharpLoader.Compat.OStim.OSceneSelector
 {
@@ -31,7 +32,18 @@ namespace SkyrimSharpLoader.Compat.OStim.OSceneSelector
             {
                 var json = File.ReadAllText(configFile);
 
-                var config = JsonConvert.DeserializeObject<OSceneConfig>(json);
+                OSceneConfig? config = null;
+
+                try
+                {
+                    config = JsonConvert.DeserializeObject<OSceneConfig>(json);
+                }
+                catch
+                {
+                    Logger.Error($"Error when deserialize OStim scene {configFile}");
+
+                    continue;
+                }
 
                 if (config == null)
                     return;

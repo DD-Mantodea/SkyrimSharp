@@ -41,7 +41,7 @@
             return true;
         }
 
-        public static T? As<T>(this IFromNative ifn) where T : class, IFromNative<T>
+        public static T? As<T>(this IFromNative ifn) where T : IFromNative<T>
         {
             if (ifn == null || ifn.Native == 0)
                 return default;

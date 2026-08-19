@@ -10,11 +10,22 @@ namespace SkyrimSharpLoader.Runtime.ModLoader
     {
         public static void LoadAssemblies()
         {
-            foreach (var info in Directory.GetFiles(Pathes.ModPath, "*.smod"))
+            foreach (var infoFile in Directory.GetFiles(Pathes.ModPath, "*.smod"))
             {
-                var json = File.ReadAllText(info);
+                var json = File.ReadAllText(infoFile);
 
-                var modInfo = JsonConvert.DeserializeObject<ModInfo>(json);
+                ModInfo? modInfo = null;
+
+                try
+                {
+                    modInfo = JsonConvert.DeserializeObject<ModInfo>(json);
+                }
+                catch
+                {
+                    Logger.Error($"Error when deserialize OStim scene {infoFile}");
+
+                    continue;
+                }
 
                 if (modInfo == null)
                     continue;
