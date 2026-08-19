@@ -1,51 +1,121 @@
-# CommonLibSSE-NG Plugin Template
+<h1 align="center">Skyrim Sharp</h1>
 
-This is a basic plugin template using CommonLibSSE-NG.
+<div align="center">
 
-### Requirements
-* [XMake](https://xmake.io) [3.0.0+]
-* C++23 Compiler (MSVC, Clang-CL)
+A C# runtime and bindings of SKSE
 
-## Getting Started
-```bat
-git clone --recurse-submodules https://github.com/libxse/commonlibsse-ng-template
-cd commonlibsse-ng-template
+</div>
+
+## Description
+
+This mod is for Skyrim, it provides a custom C# runtime using hostfxr, and has some compat with mods like Prisma and OStim, also, I made some new features for the mods and SKSE. Here is the [nexus link](https://www.nexusmods.com/games/skyrimspecialedition/mods/183149).
+
+About the bindings, I done the current part **by myself without any vibe codes** so it's not complete now, if you have any need about the api, you could write them yourself then open a PR, or you could also open an issue to ask me about adding them.
+
+My design of the bindings is kinda complex but i think it's a must cuz C# do not support multi-inherit class. 
+
+#### Classes in inherit chain or have many virtual methods
+
+- These class will be devided into two parts: `always-used` and `I-think-non-used`. They all have similar struct like a external class/struct and a internal struct for **Interop**. Then i could use structure like this to express they have inheritance.
+```csharp
+public unsafe class ExampleParent
+{
+    public struct Internal;
+}
+
+public unsafe class ExampleClass
+{
+    public struct Internal
+    {
+        internal ExampleParent.Internal Base;
+    }
+}
 ```
 
-### Build
-To build the project, run the following command:
-```bat
-xmake build
+- As for multi-inherit, just use multiple bases like `Base_0`, `Base_1` etc. But this struct could not use Pattern-Matching for these bindings, so i also added interfaces to express the C# inheritance.
+```csharp
+public unsafe class ExampleParent : IExampleParent
+{
+    public struct Internal;
+}
+
+public interface IExampleParent;
+
+public unsafe class ExampleClass : IExampleClass
+{
+    public struct Internal
+    {
+        internal ExampleParent.Internal Base;
+    }
+}
+
+public interface IExampleClass : IExampleParent;
 ```
 
-> ***Note:*** *This will generate a `build/windows/` directory in the **project's root directory** with the build output.*
+By using this, some of the methods could be declared in the extension class of interfaces to avoid duplicated works.
 
+- When it comes to the native methods calling, i will use `Unsafe.AsPointer` to get the VTABLE from these Internal structs and use `delegate* unmanaged` to call the methods. I think it should have good performance.
 
-### Build Output (Optional)
-If you want to redirect the build output, set one of the following environment variables:
+</br>
 
-- Path to a Mod Manager mods folder: `XSE_TES5_MODS_PATH`
+- And for classes needed to be made into instance and used in C# codes, they need to implements `interface IFromNative`.
+```csharp
+public unsafe interface IFromNative
+{
+    nint Native { get; }
+}
 
-  or
+public unsafe interface IFromNative<TManaged> : IFromNative where TManaged : IFromNative<TManaged>
+{
+    public abstract static TManaged FromNative(nint ptr);
+}
 
-- Path to a Skyrim install folder: `XSE_TES5_GAME_PATH`
+public unsafe interface IFromNative<TManaged, TNative> : IFromNative<TManaged> where TManaged : IFromNative<TManaged, TNative> where TNative : unmanaged
+{
+    public abstract static implicit operator TManaged(TNative* ptr);
 
-**Alternatively**, use the [set_installdir](https://xmake.io/api/description/project-target.html#set-installdir) api to set a specific install path instead, either globally or per target. By default, your plugin `.dll` and `.pdb` are included, but you can *add* more files to be installed by using the [add_installfiles](https://xmake.io/api/description/project-target.html#add-installfiles) api.
-
-### Project Generation (Optional)
-If you use Visual Studio, run the following command:
-```bat
-xmake project -k vsxmake
+    public abstract static implicit operator TNative*(TManaged instance);
+}
 ```
 
-> ***Note:*** *This will generate a `vsxmakeXXXX/` directory in the **project's root directory** using the latest version of Visual Studio installed on the system.*
+They are three levels that extension classes need to use, if you only need a native ptr and have no generic infos, you could use simple `IFromNative` to get the nint field and convert it to anything you want, but make sure you deal it with **try-catch blocks**. Then, if you need to get a managed instance and has the managed generic info, you could use the second one. The third one is mainly for the class declarations so that you won't forget to make the implicit operators.
 
-**Alternatively**, if you do not use Visual Studio, you can generate a `compile_commands.json` file for use with a laguage server like clangd in any code editor that supports it, like vscode:
-```bat
-xmake project -k compile_commands
+</br>
+
+- If the class is `I-think-non-used`, i will make the external class to `unsafe readonly struct`.
+
+#### Other classes
+
+- This part is kinda easy, i just make them with only a `unsafe readonly struct`. They are mainly like logic classes or the engine's base classes.
+
+#### For AddressLib
+
+- I do made a simple binding for that, but i only made few features like:
+```csharp
+public unsafe static class AddressLib
+{
+    internal static delegate* unmanaged<ulong, ulong> _id2offset;
+
+    public static ulong ID2Offset(ulong id) => _id2offset == null ? 0 : _id2offset(id);
+
+    internal static delegate* unmanaged<ulong> _base;
+
+    public static ulong Base() => _base == null ? 0 : _base();
+
+    public static ulong GetAddr(ulong id)
+    {
+        var offset = ID2Offset(id);
+
+        if (offset == 0)
+            return 0;
+
+        return Base() + offset;
+    }
+}
 ```
 
-> ***Note:*** *You must have a language server extension installed to make use of this file. I recommend `clangd`. Do not have more than one installed at a time as they will conflict with each other. I also recommend installing the `xmake` extension if available to make building the project easier.*
+These could be used for some static methods calling. But i haven't made anything about hooks, maybe in the future you could write the hooks using C# delegates.
 
-## Documentation
-Please refer to the [Wiki](../../wiki/Home) for more advanced topics.
+#### After all
+
+- This is the first time i make such a big binding program and i m not that good at C++ so if anyone finds any problem plz tell me. Also, if you wanna take part in it, just join!
