@@ -10,7 +10,7 @@ namespace SkyrimSharpLoader.Interop.RE
             internal void** Vtable;
 
             internal BSEventNotifyControl ProcessEvent(T* a_event, BSTEventSource<T>.Internal* a_eventSource)
-                => this.CallVirt<Internal, Ptr<T>, Ptr<BSTEventSource<T>.Internal>, BSEventNotifyControl>(a_event, a_eventSource, 1);
+                => this.CallVirt<Internal, Ptr<T>, Ptr<BSTEventSource<T>.Internal>, BSEventNotifyControl>(a_event, a_eventSource, 1, Vtable);
         }
     }
 

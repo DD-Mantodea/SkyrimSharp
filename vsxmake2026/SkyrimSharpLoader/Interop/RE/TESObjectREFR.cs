@@ -1,5 +1,7 @@
 ﻿using SkyrimSharpLoader.Internal;
+using SkyrimSharpLoader.Interop.Extensions;
 using SkyrimSharpLoader.Interop.Interfaces;
+using SkyrimSharpLoader.Interop.NativeStructures;
 using System.Runtime.InteropServices;
 
 namespace SkyrimSharpLoader.Interop.RE
@@ -34,10 +36,18 @@ namespace SkyrimSharpLoader.Interop.RE
             internal bool PreDestroyed;
 
             internal uint pad94;
-
-            internal bool Activate(Internal* a_targetRef, Internal* a_activatorRef, byte a_arg3, TESBoundObject.Internal* a_object, int a_targetCount)
-                => Base_0.Activate(a_targetRef, a_activatorRef, a_arg3, a_object, a_targetCount);
         }
+
+        static TESObjectREFR()
+        {
+            _vtables.Add("BaseFormComponent", VTABLES.Get("VTABLE_TESObjectREFR", 0));
+            _vtables.Add("TESForm", VTABLES.Get("VTABLE_TESObjectREFR", 0));
+            _vtables.Add("TESObjectREFR", VTABLES.Get("VTABLE_TESObjectREFR", 0));
+        }
+
+        private static Dictionary<string, Vtable> _vtables = [];
+
+        public Dictionary<string, Vtable> Vtables => _vtables;
 
         public nint Native { get; } = new(ptr);
 
@@ -58,41 +68,39 @@ namespace SkyrimSharpLoader.Interop.RE
     {
         private static delegate* unmanaged<nint, string> _nativeGetDisplayFullName;
 
-        public static string GetDisplayFullName(this ITESObjectREFR refr)
+        public static string GetDisplayFullName<T>(this T refr) where T : ITESObjectREFR, IFromNative
         {
             if (_nativeGetDisplayFullName == null)
                 _nativeGetDisplayFullName = (delegate* unmanaged<nint, string>)AddressLib.GetAddr(19781);
 
-            if (_nativeGetDisplayFullName == null || refr is not IFromNative fn)
+            if (_nativeGetDisplayFullName == null)
                 return "";
             else
-                return _nativeGetDisplayFullName(fn.Native) ?? "";
+                return _nativeGetDisplayFullName(refr.Native) ?? "";
         }
 
         private static delegate* unmanaged<nint, nint, byte, nint, int, bool, bool> _nativeActivateRef;
 
-        public static bool ActivateRef(this ITESObjectREFR refr, TESObjectREFR activator, byte arg2, TESBoundObject obj, int count, bool defaultPorcessingOnly = false)
+        public static bool ActivateRef<T>(this T refr, ITESObjectREFR activator, byte arg2, ITESBoundObject obj, int count, bool defaultPorcessingOnly = false) where T : ITESObjectREFR, IFromNative
         {
             if (_nativeActivateRef == null)
                 _nativeActivateRef = (delegate* unmanaged<nint, nint, byte, nint, int, bool, bool>)AddressLib.GetAddr(19796);
 
-            if (_nativeActivateRef == null || refr is not IFromNative fn)
+            if (_nativeActivateRef == null)
                 return false;
             else
-                return _nativeActivateRef(fn.Native, activator.Native, arg2, obj.Native, count, defaultPorcessingOnly);
+                return _nativeActivateRef(refr.Native, activator.Native, arg2, obj.Native, count, defaultPorcessingOnly);
         }
 
-        public static TESBoundObject GetBaseObject(this ITESObjectREFR refr)
+        public static TESBoundObject GetBaseObject<T>(this T refr) where T : ITESObjectREFR, IFromNative
         {
-            if (refr is not IFromNative fn)
-                return null;
-            else
-            {
-                var objRefr = (TESObjectREFR.Internal*)fn.Native;
+            var objRefr = (TESObjectREFR.Internal*)refr.Native;
 
-                return objRefr->Data.ObjectReference;
-            }
+            return objRefr->Data.ObjectReference;
         }
+
+        public static NiAVObject Get3D1<T>(this T refr, bool a_firstPerson) where T : ITESObjectREFR, IFromNative
+            => new(refr.Native.CallVirt<bool, Ptr<NiAVObject.Internal>>(a_firstPerson, 0x6F, refr.Vtables["TESObjectREFR"]));
     }
 
     public unsafe interface ITESObjectREFR :

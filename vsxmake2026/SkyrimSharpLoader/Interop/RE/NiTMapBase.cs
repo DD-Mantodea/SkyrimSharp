@@ -24,12 +24,6 @@ namespace SkyrimSharpLoader.Interop.RE
 
             internal uint Size;
 
-            internal uint HashFunction(TKey key) => this.CallVirt<Internal, TKey, uint>(key, 0x1);
-
-            internal bool KeyEqual(TKey key1, TKey key2) => this.CallVirt<Internal, TKey, TKey, bool>(key1, key2, 0x2);
-
-            internal void AssignValue() => this.CallVoidVirt(0x3);
-
             internal void ClearValue() { }
 
             internal NiTMapItem<TKey, TValue>.Internal* MallocValue() => (NiTMapItem<TKey, TValue>.Internal*)nint.Zero;
@@ -83,6 +77,8 @@ namespace SkyrimSharpLoader.Interop.RE
             public void Dispose() { }
         }
 
+        public Dictionary<string, Vtable> Vtables => [new("NiTMapBase", ((Internal*)Native)->Vtable)];
+
         public nint Native { get; } = new(ptr);
 
         public static implicit operator NiTMapBase<TKey, TValue>(Internal* ptr) => new(ptr);
@@ -90,10 +86,6 @@ namespace SkyrimSharpLoader.Interop.RE
         public static implicit operator Internal*(NiTMapBase<TKey, TValue> instance) => (Internal*)instance.Native;
 
         public static NiTMapBase<TKey, TValue> FromNative(nint ptr) => new((Internal*)ptr);
-
-        public uint Capacity => ((Internal*)Native)->Capacity;
-
-        public uint Size => ((Internal*)Native)->Size;
 
         public TValue this[TKey key]
         {
@@ -113,13 +105,13 @@ namespace SkyrimSharpLoader.Interop.RE
             if (Native == nint.Zero || ((Internal*)Native)->Data == null)
                 return false;
 
-            var index = ((Internal*)Native)->HashFunction(key);
+            var index = this.HashFunction(key);
 
             var item = ((Internal*)Native)->Data[index];
 
             while (item != null)
             {
-                if (((Internal*)Native)->KeyEqual(key, item->key))
+                if (this.KeyEqual(key, item->key))
                 {
                     value = item->value;
                     return true;
@@ -138,7 +130,19 @@ namespace SkyrimSharpLoader.Interop.RE
         IEnumerator<NiTMapItem<TKey, TValue>> IEnumerable<NiTMapItem<TKey, TValue>>.GetEnumerator() => GetEnumerator();
     }
 
-    public interface INiTMapBase;
+    public interface INiTMapBase : IFromNative, IHaveVtable;
+
+    public unsafe static class NiTMapBaseExt
+    {
+        public static uint HashFunction<TKey, TValue>(this NiTMapBase<TKey, TValue> mapBase, TKey key) where TKey : unmanaged where TValue : unmanaged
+            => mapBase.Native.CallVirt<TKey, uint>(key, 0x1, mapBase.Vtables["NiTMapBase"]);
+
+        public static bool KeyEqual<TKey, TValue>(this NiTMapBase<TKey, TValue> mapBase, TKey key1, TKey key2) where TKey : unmanaged where TValue : unmanaged
+            => mapBase.Native.CallVirt<TKey, TKey, bool>(key1, key2, 0x2, mapBase.Vtables["NiTMapBase"]);
+
+        public static void AssignValue<TKey, TValue>(this NiTMapBase<TKey, TValue> mapBase) where TKey : unmanaged where TValue : unmanaged
+            => mapBase.Native.CallVoidVirt(0x3, mapBase.Vtables["NiTMapBase"]);
+    }
 
     public unsafe readonly struct NiTMapItem<TKey, TValue>(NiTMapItem<TKey, TValue>.Internal* ptr) :
         INiTMapItem, IFromNative<NiTMapItem<TKey, TValue>, NiTMapItem<TKey, TValue>.Internal>

@@ -1,4 +1,4 @@
-#include "otalkduringsex.h"
+#include "OTalkDuringSex.h"
 #include "internal/log.h"
 #include "ostim/thread/othread.h"
 #include "prisma/prisma.h"

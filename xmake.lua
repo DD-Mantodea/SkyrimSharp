@@ -3,7 +3,7 @@ includes("lib/commonlibsse-ng")
 
 -- set project
 set_project("SkyrimSharp")
-set_version("1.0.1-2")
+set_version("1.0.1-3")
 set_license("GPL-3.0")
 set_languages("c++23")
 set_warnings("allextra")
@@ -25,9 +25,8 @@ target("SkyrimSharp")
     })
 
     -- add src files
-    add_files("src/**.cpp")
-    add_headerfiles("src/**.h")
-    add_headerfiles("src/runtime/**.h")
+    add_files("src/**.cpp", {group = true})
+    add_headerfiles("src/**.h", {group = true})
     add_headerfiles("include/**.hpp")
     add_includedirs("src")
     set_pcxxheader("src/pch.h")

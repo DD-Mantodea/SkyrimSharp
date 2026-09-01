@@ -61,10 +61,21 @@ namespace SkyrimSharpLoader.Interop.RE
             internal BSTEventSink<UserEventEnabledEvent>.Internal Base_6;
 
             internal BSTEventSink<TESTrackedStatsEvent>.Internal Base_7;
-
-            internal bool Activate(TESObjectREFR.Internal* a_targetRef, TESObjectREFR.Internal* a_activatorRef, byte a_arg3, TESBoundObject.Internal* a_object, int a_targetCount)
-                => Base_0.Activate(a_targetRef, a_activatorRef, a_arg3, a_object, a_targetCount);
         }
+
+        static PlayerCharacter()
+        {
+            _vtables.Add("BaseFormComponent", VTABLES.Get("VTABLE_PlayerCharacter", 0));
+            _vtables.Add("TESForm", VTABLES.Get("VTABLE_PlayerCharacter", 0));
+            _vtables.Add("TESObjectREFR", VTABLES.Get("VTABLE_PlayerCharacter", 0));
+            _vtables.Add("Actor", VTABLES.Get("VTABLE_PlayerCharacter", 0));
+            _vtables.Add("Character", VTABLES.Get("VTABLE_PlayerCharacter", 0));
+            _vtables.Add("PlayerCharacter", VTABLES.Get("VTABLE_PlayerCharacter", 0));
+        }
+
+        private static Dictionary<string, Vtable> _vtables = [];
+
+        public Dictionary<string, Vtable> Vtables => _vtables;
 
         public nint Native { get; } = new(ptr);
 
@@ -92,9 +103,6 @@ namespace SkyrimSharpLoader.Interop.RE
                 return new(_singletonPtr);
             }
         }
-
-        public bool Activate(TESObjectREFR targetRef, TESObjectREFR activatorRef, byte arg3, TESBoundObject obj, int targetCount)
-            => ((Internal*)Native.ToPointer())->Activate(targetRef, activatorRef, arg3, obj, targetCount);
     }
 
     public interface IPlayerCharacter :

@@ -11,12 +11,14 @@ namespace SkyrimSharpLoader.Interop.RE
             [StructLayout(LayoutKind.Sequential, Size = 0x8)]
             public struct IAllocatorFunctor
             {
-                internal bool Allocate(uint a_num, uint a_elemSize) => this.CallVirt<IAllocatorFunctor, uint, uint, bool>(a_num, a_elemSize, 0);
+                internal void** Vtable;
+
+                internal bool Allocate(uint a_num, uint a_elemSize) => this.CallVirt<IAllocatorFunctor, uint, uint, bool>(a_num, a_elemSize, 0, Vtable);
 
                 internal bool Reallocate(uint a_minNewSizeInItems, uint a_frontCopyCount, uint a_shiftCount, uint a_backCopyCount, uint a_elemSize)
-                    => this.CallVirt<IAllocatorFunctor, uint, uint, uint, uint, uint, bool>(a_minNewSizeInItems, a_frontCopyCount, a_shiftCount, a_backCopyCount, a_elemSize, 1);
+                    => this.CallVirt<IAllocatorFunctor, uint, uint, uint, uint, uint, bool>(a_minNewSizeInItems, a_frontCopyCount, a_shiftCount, a_backCopyCount, a_elemSize, 1, Vtable);
 
-                internal void Deallocate() => this.CallVoidVirt(2);
+                internal void Deallocate() => this.CallVoidVirt(2, Vtable);
             }
 
             internal void** Vtable;

@@ -14,7 +14,7 @@ namespace SkyrimSharpLoader.Interop.RE
 
             internal uint pad0C;
 
-            internal void DeleteThis() => this.CallVoidVirt(1);
+            internal void DeleteThis() => this.CallVoidVirt(1, Vtable);
         }
     }
 

@@ -190,6 +190,14 @@ namespace OSharp::Thread
 		return result;
 	}
 
+	ThreadBuilder* ThreadAPI::CreateBuilder(vector<RE::Actor*> actors)
+	{
+		if (!_threadInterface)
+			return nullptr;
+
+		return _threadInterface->createThreadBuilder(actors.size(), (void**)actors.data());
+	}
+
 	void SharpThreadEventListener::listen(OStim::Thread* thread)
 	{
 		if (!_delegate || !thread)

@@ -12,7 +12,7 @@ namespace SkyrimSharpLoader.Interop.RE
             internal bool NotifyAnimationGraph(ref BSFixedString a_eventName)
             {
                 fixed (BSFixedString* ptr = &a_eventName)
-                    return this.CallVirt<Internal, Ptr<BSFixedString>, bool>(ptr, 1);
+                    return this.CallVirt<Internal, Ptr<BSFixedString>, bool>(ptr, 1, Vtable);
             }
 
             //internal bool GetAnimationGraphManagerImpl()

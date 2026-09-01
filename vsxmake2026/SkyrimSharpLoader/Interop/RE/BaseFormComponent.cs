@@ -11,13 +11,16 @@ namespace SkyrimSharpLoader.Interop.RE
         public struct Internal
         {
             internal void** Vtable;
-
-            internal void InitializeDataComponent() => this.CallVoidVirt(1);
-
-            internal void ClearDataComponent() => this.CallVoidVirt(2);
-
-            internal void CopyComponent(Internal* a_rhs) => this.CallVoidVirt<Internal, Ptr<Internal>>(a_rhs, 3);
         }
+
+        static BaseFormComponent()
+        {
+            _vtables.Add("BaseFormComponent", VTABLES.Get("VTABLE_BaseFormComponent", 0));
+        }
+
+        private static Dictionary<string, Vtable> _vtables = [];
+
+        public Dictionary<string, Vtable> Vtables => _vtables;
 
         public nint Native { get; } = new(ptr);
 
@@ -25,14 +28,20 @@ namespace SkyrimSharpLoader.Interop.RE
 
         public static implicit operator Internal*(BaseFormComponent instance) => (Internal*)instance.Native.ToPointer();
 
-        public void InitializeDataComponent() => ((Internal*)Native.ToPointer())->InitializeDataComponent();
-
-        public void ClearDataComponent() => ((Internal*)Native.ToPointer())->ClearDataComponent();
-
-        public void CopyComponent(BaseFormComponent component) => ((Internal*)Native.ToPointer())->CopyComponent((Internal*)component.Native.ToPointer());
-
         public static BaseFormComponent FromNative(nint ptr) => new((Internal*)ptr);
     }
 
-    public interface IBaseFormComponent;
+    public unsafe interface IBaseFormComponent : IFromNative, IHaveVtable;
+
+    public unsafe static class BaseFormComponentExt
+    {
+        public static void InitializeDataComponent<T>(this T component) where T : unmanaged, IBaseFormComponent, IFromNative
+            => component.Native.CallVoidVirt(0x1, component.Vtables["BaseFormComponent"]);
+
+        public static void ClearDataComponent<T>(this T component) where T : unmanaged, IBaseFormComponent, IFromNative
+            => component.Native.CallVoidVirt(0x2, component.Vtables["BaseFormComponent"]);
+
+        public static void CopyComponent<T>(this T component, T rhs) where T : unmanaged, IBaseFormComponent, IFromNative
+            => component.Native.CallVoidVirt<Ptr<BaseFormComponent.Internal>>(rhs.Native, 0x3, component.Vtables["BaseFormComponent"]);
+    }
 }

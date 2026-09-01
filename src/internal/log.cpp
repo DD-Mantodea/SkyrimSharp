@@ -1,4 +1,4 @@
-#include "log.h"
+#include "Log.h"
 
 namespace SharpInternal::Log
 {

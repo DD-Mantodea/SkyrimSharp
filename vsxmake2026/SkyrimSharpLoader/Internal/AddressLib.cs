@@ -1,4 +1,6 @@
-﻿namespace SkyrimSharpLoader.Internal
+﻿using SkyrimSharpLoader.Interop.RE;
+
+namespace SkyrimSharpLoader.Internal
 {
     public unsafe static class AddressLib
     {

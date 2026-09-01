@@ -13,25 +13,25 @@ namespace SkyrimSharpLoader.Compat.OStim.OThread
             internal void* threadInterface;
 
             internal SharpThreadEventListener* CreateListener(nint @delegate) =>
-                this.CallVirt<Internal, nint, Ptr<SharpThreadEventListener>>(@delegate, 0x0);
+                this.CallVirt<Internal, nint, Ptr<SharpThreadEventListener>>(@delegate, 0x0, Vtable);
 
             internal void RegisterThreadStartListener(nint eventListener) =>
-                this.CallVoidVirt<Internal, nint>(eventListener, 0x1);
+                this.CallVoidVirt(eventListener, 0x1, Vtable);
 
             internal void RegisterNodeChangedListener(nint eventListener) =>
-                this.CallVoidVirt<Internal, nint>(eventListener, 0x2);
+                this.CallVoidVirt(eventListener, 0x2, Vtable);
 
             internal void RegisterThreadStopListener(nint eventListener) =>
-                this.CallVoidVirt<Internal, nint>(eventListener, 0x3);
+                this.CallVoidVirt(eventListener, 0x3, Vtable);
 
             internal bool IsThreadValid(uint threadID) =>
-                this.CallVirt<Internal, uint, bool>(threadID, 0x4);
+                this.CallVirt<Internal, uint, bool>(threadID, 0x4, Vtable);
 
             internal uint GetActorPosition(uint threadID, uint formID) =>
-                this.CallVirt<Internal, uint, uint, uint>(threadID, formID, 0x5);
+                this.CallVirt<Internal, uint, uint, uint>(threadID, formID, 0x5, Vtable);
 
             internal uint GetActorPosition(nint thread, uint formID) =>
-                this.CallVirt<Internal, nint, uint, uint>(thread, formID, 0x6);
+                this.CallVirt<Internal, nint, uint, uint>(thread, formID, 0x6, Vtable);
         }
 
         public nint Native { get; } = new(ptr);

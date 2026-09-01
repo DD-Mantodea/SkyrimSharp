@@ -20,6 +20,18 @@ namespace SkyrimSharpLoader.Interop.RE
             internal uint pad2C;
         }
 
+        static TESBoundObject()
+        {
+            _vtables.Add("BaseFormComponent", VTABLES.Get("VTABLE_TESBoundObject", 0));
+            _vtables.Add("TESForm", VTABLES.Get("VTABLE_TESBoundObject", 0));
+            _vtables.Add("TESObject", VTABLES.Get("VTABLE_TESBoundObject", 0));
+            _vtables.Add("TESBoundObject", VTABLES.Get("VTABLE_TESBoundObject", 0));
+        }
+
+        private static Dictionary<string, Vtable> _vtables = [];
+
+        public Dictionary<string, Vtable> Vtables => _vtables;
+
         public nint Native { get; } = new(ptr);
 
         public static implicit operator TESBoundObject(Internal* ptr) => new(ptr);

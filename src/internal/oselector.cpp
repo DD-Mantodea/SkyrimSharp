@@ -1,4 +1,4 @@
-#include "oselector.h"
+#include "OSelector.h"
 
 using namespace SharpInternal;
 

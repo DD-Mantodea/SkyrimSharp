@@ -1,4 +1,5 @@
-#include "event.h"
+#include "Event.h"
+#include "Addresslib.h"
 
 namespace SharpInternal::AddressLib
 {

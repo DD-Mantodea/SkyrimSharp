@@ -17,9 +17,9 @@ namespace SkyrimSharpLoader.Interop.RE
 
             internal uint BufferPosition;
 
-            internal TESForm.Internal* GetForm() => this.CallVirt<Internal, Ptr<TESForm.Internal>>(1);
+            internal TESForm.Internal* GetForm() => this.CallVirt<Internal, Ptr<TESForm.Internal>>(1, Vtable);
 
-            internal TESObjectREFR.Internal* GetReference() => this.CallVirt<Internal, Ptr<TESObjectREFR.Internal>>(2);
+            internal TESObjectREFR.Internal* GetReference() => this.CallVirt<Internal, Ptr<TESObjectREFR.Internal>>(2, Vtable);
         }
     }
 }

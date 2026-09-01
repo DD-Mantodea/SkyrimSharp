@@ -1,6 +1,8 @@
-﻿namespace SkyrimSharpLoader.Interop.RE
+﻿using SkyrimSharpLoader.Interop.Interfaces;
+
+namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class NiAVObject
+    public unsafe class NiAVObject(NiAVObject.Internal* ptr) : IFromNative<NiAVObject, NiAVObject.Internal>
     {
         public struct Internal
         {
@@ -67,5 +69,13 @@
 
             internal ulong unk108;
         }
+
+        public nint Native { get; } = new(ptr);
+
+        public static implicit operator NiAVObject(Internal* ptr) => new(ptr);
+
+        public static implicit operator Internal*(NiAVObject instance) => (Internal*)instance.Native.ToPointer();
+
+        public static NiAVObject FromNative(nint ptr) => new((Internal*)ptr);
     }
 }

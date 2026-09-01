@@ -1,4 +1,5 @@
 ﻿using SkyrimSharpLoader.Interop.Extensions;
+using SkyrimSharpLoader.Interop.Interfaces;
 using SkyrimSharpLoader.Interop.NativeStructures;
 using System.Runtime.InteropServices;
 
@@ -6,7 +7,7 @@ namespace SkyrimSharpLoader.Interop.RE
 {
     using CopyMap = NiTPointerMap<Ptr<TESForm.Internal>, Ptr<TESForm.Internal>>;
 
-    public unsafe readonly struct TESForm : ITESForm
+    public unsafe class TESForm(TESForm.Internal* ptr) : ITESForm, IFromNative<TESForm, TESForm.Internal>
     {
         [Flags]
         public enum ChangeFlags : uint
@@ -101,40 +102,61 @@ namespace SkyrimSharpLoader.Interop.RE
             internal byte pad1B;
 
             internal uint pad1C;
-
-            internal void InitializeDataComponent() => Base.InitializeDataComponent();
-
-            internal void ClearDataComponent() => Base.ClearDataComponent();
-
-            internal void CopyComponent(BaseFormComponent.Internal* a_rhs) => Base.CopyComponent(a_rhs);
-
-            internal void InitializeData() => this.CallVoidVirt(0x4);
-
-            internal void ClearData() => this.CallVoidVirt(0x5);
-
-            internal bool Load(TESFile.Internal* a_mod) => this.CallVirt<Internal, Ptr<TESFile.Internal>, bool>(a_mod, 0x6);
-
-            internal bool LoadPartial(TESFile.Internal* a_mod) => this.CallVirt<Internal, Ptr<TESFile.Internal>, bool>(a_mod, 0x7);
-
-            internal bool LoadEdit(TESFile.Internal* a_mod) => this.CallVirt<Internal, Ptr<TESFile.Internal>, bool>(a_mod, 0x8);
-
-            internal Internal* CreateDuplicateForm(bool a_createEditorID, CopyMap.Internal* a_copyMap) => this.CallVirt<Internal, bool, Ptr<CopyMap.Internal>, Ptr<Internal>>(a_createEditorID, a_copyMap, 0x9);
-
-            internal bool AddChange(uint a_changeFlags) => this.CallVirt<Internal, uint, bool>(a_changeFlags, 0xA);
-
-            internal void RemoveChange(uint a_changeFlags) => this.CallVoidVirt(a_changeFlags, 0xB);
-
-            internal bool FindInFileFast(TESFile.Internal* a_mod) => this.CallVirt<Internal, Ptr<TESFile.Internal>, bool>(a_mod, 0xC);
-
-            //internal bool CheckSaveGame(BGSSaveFormBuffer)
-
-            internal bool Activate(TESObjectREFR.Internal* a_targetRef, TESObjectREFR.Internal* a_activatorRef, byte a_arg3, TESBoundObject.Internal* a_object, int a_targetCount)
-                => this.CallVirt<Internal, Ptr<TESObjectREFR.Internal>, Ptr<TESObjectREFR.Internal>, byte, Ptr<TESBoundObject.Internal>, int, bool>
-                (
-                    a_targetRef, a_activatorRef, a_arg3, a_object, a_targetCount, 0x37
-                );
         }
+
+        static TESForm()
+        {
+            _vtables.Add("BaseFormComponent", VTABLES.Get("VTABLE_TESForm", 0));
+            _vtables.Add("TESForm", VTABLES.Get("VTABLE_TESForm", 0));
+        }
+
+        private static Dictionary<string, Vtable> _vtables = [];
+
+        public Dictionary<string, Vtable> Vtables => _vtables;
+
+        public nint Native { get; } = new(ptr);
+
+        public static implicit operator TESForm(Internal* ptr) => new(ptr);
+
+        public static implicit operator Internal*(TESForm instance) => (Internal*)instance.Native.ToPointer();
+
+        public static TESForm FromNative(nint ptr) => new((Internal*)ptr);
     }
 
     public interface ITESForm : IBaseFormComponent;
+
+    public unsafe static class TESFormExt
+    {
+        public static void InitializeData<T>(this T form) where T : ITESForm, IFromNative 
+            => form.Native.CallVoidVirt(0x4, form.Vtables["TESForm"]);
+
+        public static void ClearData<T>(this T form) where T : ITESForm, IFromNative
+            => form.Native.CallVoidVirt(0x5, form.Vtables["TESForm"]);
+
+        public static bool Load<T>(this T form, TESFile mod) where T : ITESForm, IFromNative
+            => form.Native.CallVirt<Ptr<TESFile.Internal>, bool>(mod.Native, 0x6, form.Vtables["TESForm"]);
+
+        public static bool LoadPartial<T>(this T form, TESFile.Internal* a_mod) where T : ITESForm, IFromNative
+            => form.Native.CallVirt<Ptr<TESFile.Internal>, bool>(a_mod, 0x7, form.Vtables["TESForm"]);
+
+        public static bool LoadEdit<T>(this T form, TESFile.Internal* a_mod) where T : ITESForm, IFromNative
+            => form.Native.CallVirt<Ptr<TESFile.Internal>, bool>(a_mod, 0x8, form.Vtables["TESForm"]);
+
+        public static TESForm CreateDuplicateForm<T>(this T form, bool a_createEditorID, CopyMap.Internal* a_copyMap) where T : ITESForm, IFromNative
+            => new(form.Native.CallVirt<bool, Ptr<CopyMap.Internal>, Ptr<TESForm.Internal>>(a_createEditorID, a_copyMap, 0x9, form.Vtables["TESForm"]));
+
+        public static bool AddChange<T>(this T form, uint a_changeFlags) where T : ITESForm, IFromNative
+            => form.Native.CallVirt<uint, bool>(a_changeFlags, 0xA, form.Vtables["TESForm"]);
+
+        public static void RemoveChange<T>(this T form, uint a_changeFlags) where T : ITESForm, IFromNative
+            => form.Native.CallVoidVirt(a_changeFlags, 0xB, form.Vtables["TESForm"]);
+
+        public static bool FindInFileFast<T>(this T form, TESFile.Internal* a_mod) where T : ITESForm, IFromNative
+            => form.Native.CallVirt<Ptr<TESFile.Internal>, bool>(a_mod, 0xC, form.Vtables["TESForm"]);
+
+        public static bool Activate<T>(this T form, ITESObjectREFR a_targetRef, ITESObjectREFR a_activatorRef, byte a_arg3, ITESBoundObject a_object, int a_targetCount) where T : ITESForm, IFromNative
+            => form.Native.CallVirt<Ptr<TESObjectREFR.Internal>, Ptr<TESObjectREFR.Internal>, byte, Ptr<TESBoundObject.Internal>, int, bool>(
+                a_targetRef.Native, a_activatorRef.Native, a_arg3, a_object.Native, a_targetCount, 0x37, form.Vtables["TESForm"]
+            );
+    }
 }

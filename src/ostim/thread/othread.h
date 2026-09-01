@@ -48,6 +48,8 @@ namespace OSharp::Thread
 
 		virtual vector<Action*> GetActions(OStim::Thread* thread);
 
+		virtual ThreadBuilder* CreateBuilder(vector<RE::Actor*> actors);
+
 	private:
 		OStim::ThreadInterface* _threadInterface = nullptr;
 	};
