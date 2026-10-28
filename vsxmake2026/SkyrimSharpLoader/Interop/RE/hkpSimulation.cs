@@ -1,6 +1,6 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
-    public class hkpSimulation
+    public struct hkpSimulation
     {
         public struct Internal
         {

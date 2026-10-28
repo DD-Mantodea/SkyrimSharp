@@ -2,6 +2,7 @@
 #include "../prisma/prisma.h"
 #include "../utils.h"
 #include "../internal/log.h"
+#include "../internal/Form.h"
 #include "../internal/event.h"
 #include "../internal/input.h"
 #include "../internal/oselector.h"
@@ -130,6 +131,8 @@ namespace Runtime
 
         SharpInternal::Log::set_internal();
 
+        SharpInternal::Form::set_internal();
+
         SharpInternal::Event::set_internal();
 
         SharpInternal::Input::set_internal();
@@ -172,5 +175,7 @@ namespace Runtime
         );
 
         load_ptr(nullptr, 0);
+
+        logs::info("Successfully load contents.");
     }
 }

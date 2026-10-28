@@ -2,7 +2,7 @@
 
 namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class BGSLoadFormData
+    public unsafe struct BGSLoadFormData
     {
         [StructLayout(LayoutKind.Sequential, Pack = 8, Size = 0x28)]
         public struct Internal

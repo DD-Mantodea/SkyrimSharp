@@ -140,6 +140,8 @@ namespace SharpInternal::OTalkDuringSex
 			if (string_view(cArgs->Name) == string_view("MultipleNpcTalk"))
 				MultipleNpcTalk = cArgs->View;
 		});
+
+		logs::info("Successfully Add OTalkDuringSex listeners.");
 	}
 
 	SexDialogInputSink* SexDialogInputSink::GetSingleton()

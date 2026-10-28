@@ -1,4 +1,5 @@
-﻿using SkyrimSharpLoader.Interop.Extensions;
+﻿using SkyrimSharpLoader.Internal;
+using SkyrimSharpLoader.Interop.Extensions;
 using SkyrimSharpLoader.Interop.Interfaces;
 using SkyrimSharpLoader.Interop.NativeStructures;
 using System.Runtime.InteropServices;
@@ -7,7 +8,7 @@ namespace SkyrimSharpLoader.Interop.RE
 {
     using CopyMap = NiTPointerMap<Ptr<TESForm.Internal>, Ptr<TESForm.Internal>>;
 
-    public unsafe class TESForm(TESForm.Internal* ptr) : ITESForm, IFromNative<TESForm, TESForm.Internal>
+    public unsafe struct TESForm(TESForm.Internal* ptr) : ITESForm, IFromNative<TESForm, TESForm.Internal>
     {
         [Flags]
         public enum ChangeFlags : uint
@@ -121,6 +122,16 @@ namespace SkyrimSharpLoader.Interop.RE
         public static implicit operator Internal*(TESForm instance) => (Internal*)instance.Native.ToPointer();
 
         public static TESForm FromNative(nint ptr) => new((Internal*)ptr);
+
+        public static TESForm LookupByID(uint formID)
+        {
+            return Form.LookupByID(formID);
+        }
+
+        public static TESForm LookupByEditorID(string editorID)
+        {
+            return Form.LookupByEditorID(editorID);
+        }
     }
 
     public interface ITESForm : IBaseFormComponent;

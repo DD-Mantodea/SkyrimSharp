@@ -43,6 +43,12 @@ namespace SkyrimSharpLoader.Interop.RE
             _vtables.Add("BaseFormComponent", VTABLES.Get("VTABLE_TESObjectREFR", 0));
             _vtables.Add("TESForm", VTABLES.Get("VTABLE_TESObjectREFR", 0));
             _vtables.Add("TESObjectREFR", VTABLES.Get("VTABLE_TESObjectREFR", 0));
+
+            _vtables.Add("BSHandleRefObject", VTABLES.Get("VTABLE_TESObjectREFR", 1));
+
+            _vtables.Add("BSTEventSink<BSAnimationGraphEvent>", VTABLES.Get("VTABLE_TESObjectREFR", 2));
+            
+            _vtables.Add("IAnimationGraphManagerHolder", VTABLES.Get("VTABLE_TESObjectREFR", 3));
         }
 
         private static Dictionary<string, Vtable> _vtables = [];

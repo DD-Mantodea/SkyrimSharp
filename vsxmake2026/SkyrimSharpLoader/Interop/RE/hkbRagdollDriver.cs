@@ -1,6 +1,6 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
-    public class hkbRagdollDriver : IhkbRagdollDriver
+    public struct hkbRagdollDriver : IhkbRagdollDriver
     {
         public struct Internal
         {

@@ -11,6 +11,8 @@ namespace SharpInternal::OEroticAdventures
 
 	void StartDailyScene(RE::StaticFunctionTag*, vector<RE::Actor*> actors, string listenerID, string sceneID, int type, RE::TESObjectREFR* furniture = nullptr);
 
+	void StartLieOnBedScene(RE::StaticFunctionTag*, vector<RE::Actor*> actors, string listenerID, RE::TESObjectREFR* bed);
+
 	template <class F>
 	inline static void RegisterFunction(RE::BSScript::Internal::VirtualMachine* vm, string_view funcName, F callback)
 	{
@@ -19,6 +21,7 @@ namespace SharpInternal::OEroticAdventures
 
 	inline static void Register(RE::BSScript::Internal::VirtualMachine* a_vm)
 	{
-		
+		RegisterFunction(a_vm, "StartKeyScene", StartKeyScene);
+		RegisterFunction(a_vm, "StartDailyScene", StartDailyScene);
 	}
 }

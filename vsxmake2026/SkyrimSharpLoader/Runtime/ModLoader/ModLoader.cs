@@ -8,9 +8,14 @@ namespace SkyrimSharpLoader.Runtime.ModLoader
 {
     public static class ModLoader
     {
+        public static List<Assembly> Assemblies = [];
+
         public static void LoadAssemblies()
         {
-            foreach (var infoFile in Directory.GetFiles(Pathes.ModPath, "*.smod"))
+            if (!Directory.Exists(Pathes.ModsPath))
+                Directory.CreateDirectory(Pathes.ModsPath);
+
+            foreach (var infoFile in Directory.GetFiles(Pathes.ModsPath, "*.smod"))
             {
                 var json = File.ReadAllText(infoFile);
 
@@ -22,7 +27,7 @@ namespace SkyrimSharpLoader.Runtime.ModLoader
                 }
                 catch
                 {
-                    Logger.Error($"Error when deserialize OStim scene {infoFile}");
+                    Logger.Error($"Error when deserialize smod {infoFile}");
 
                     continue;
                 }
@@ -30,7 +35,7 @@ namespace SkyrimSharpLoader.Runtime.ModLoader
                 if (modInfo == null)
                     continue;
 
-                var modPath = Path.GetFullPath(Path.Combine(Pathes.ModPath, modInfo.Assembly));
+                var modPath = Path.GetFullPath(Path.Combine(Pathes.ModsPath, modInfo.Assembly));
 
                 LoadAssembly(modPath);
             }
@@ -44,6 +49,8 @@ namespace SkyrimSharpLoader.Runtime.ModLoader
 
                 if (asm == null)
                     return;
+
+                Assemblies.Add(asm);
 
                 var types = asm.GetTypes();
 
@@ -62,7 +69,7 @@ namespace SkyrimSharpLoader.Runtime.ModLoader
             {
                 Logger.Error(e.Message + e.StackTrace);
 
-                File.WriteAllText(Path.Combine(Pathes.ModPath, "log.txt"), e.Message + e.StackTrace);
+                File.WriteAllText(Path.Combine(Pathes.ModsPath, "log.txt"), e.Message + e.StackTrace);
             }
         }
     }

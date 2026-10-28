@@ -2,7 +2,7 @@
 
 namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class NiTimeController
+    public unsafe struct NiTimeController
     {
         [StructLayout(LayoutKind.Sequential, Pack = 8, Size = 0x48)]
         public struct Internal

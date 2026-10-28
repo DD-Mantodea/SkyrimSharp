@@ -10,6 +10,8 @@ namespace Prisma
 			return;
 
 		initialize_ui_pointer(nullptr, 0);
+
+		logs::info("Successfully initialize Prisma UI.");
 	}
 
 	void RegisterCreateView(EventHandler handler)

@@ -2,7 +2,7 @@
 
 namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class bhkShape
+    public unsafe struct bhkShape
     {
         [StructLayout(LayoutKind.Sequential, Pack = 8, Size = 0x28)]
         public struct Internal

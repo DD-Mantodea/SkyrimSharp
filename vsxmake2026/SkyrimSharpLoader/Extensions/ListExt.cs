@@ -12,5 +12,15 @@ namespace SkyrimSharpLoader.Extensions
         {
             return index >= list.Count || index < 0;
         }
+
+        public static bool TryAdd<T>(this List<T> list, T item)
+        {
+            if (list.Contains(item))
+                return false;
+
+            list.Add(item);
+
+            return true;
+        }
     }
 }

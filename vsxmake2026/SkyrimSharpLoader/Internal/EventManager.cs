@@ -72,7 +72,11 @@ namespace SkyrimSharpLoader.Internal
             var eventPtr = Marshal.GetFunctionPointerForDelegate(eventHandler);
 
             if (!_handlerPairs.TryGetValue(index, out var handlers))
-                _handlerPairs.Add(index, []);
+            {
+                handlers = [];
+
+                _handlerPairs.Add(index, handlers);
+            }
 
             handlers?.Add(eventHandler);
 

@@ -3,7 +3,7 @@ using SkyrimSharpLoader.Interop.NativeStructures;
 
 namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class TESFullName(TESFullName.Internal* ptr) : ITESFullName
+    public unsafe struct TESFullName(TESFullName.Internal* ptr) : ITESFullName
     {
         public struct Internal
         {

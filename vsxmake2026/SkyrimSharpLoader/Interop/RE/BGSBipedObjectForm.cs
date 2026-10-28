@@ -1,6 +1,6 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class BGSBipedObjectForm
+    public unsafe struct BGSBipedObjectForm
     {
         public struct Internal
         {

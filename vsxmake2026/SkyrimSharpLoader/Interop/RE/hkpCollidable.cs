@@ -1,6 +1,6 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
-    public class hkpCollidable
+    public struct hkpCollidable
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class BSSpinLock
+    public unsafe struct BSSpinLock
     {
         [StructLayout(LayoutKind.Sequential, Size = 0x8)]
         public struct Internal

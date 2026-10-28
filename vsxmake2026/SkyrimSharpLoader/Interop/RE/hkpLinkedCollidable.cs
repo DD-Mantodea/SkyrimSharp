@@ -1,6 +1,6 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
-    internal class hkpLinkedCollidable
+    internal struct hkpLinkedCollidable
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
-    public class BSTSmallArray<T> : IBSTSmallArray where T : unmanaged
+    public struct BSTSmallArray<T> : IBSTSmallArray where T : unmanaged
     {
         public struct Internal
         {

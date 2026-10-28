@@ -2,7 +2,7 @@
 
 namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class NiAVObject(NiAVObject.Internal* ptr) : IFromNative<NiAVObject, NiAVObject.Internal>
+    public unsafe struct NiAVObject(NiAVObject.Internal* ptr) : IFromNative<NiAVObject, NiAVObject.Internal>
     {
         public struct Internal
         {

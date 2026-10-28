@@ -1,7 +1,7 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
     //TODO
-    public unsafe class hkpWorld
+    public unsafe struct hkpWorld
     {
         public struct Internal
         {

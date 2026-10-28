@@ -1,9 +1,11 @@
 #include "internal/event.h"
 #include "internal/log.h"
-#include "internal/oimmersion.h"
-#include "internal/oselector.h"
-#include "internal/otalkduringsex.h"
+#include "internal/OImmersion.h"
+#include "internal/OSelector.h"
+#include "internal/OTalkDuringSex.h"
 #include "internal/SharpInputSink.h"
+#include "internal/OEroticAdventures.h"
+#include "internal/JsFragment.h"
 #include "ostim/thread/othread.h"
 #include "ostim/include/InterfaceExchangeMessage.h"
 #include "prisma/prisma.h"
@@ -33,6 +35,8 @@ static void SKSEMessageHandler(SKSE::MessagingInterface::Message* a_msg)
 
 		OSharp::Thread::ThreadAPI::GetSingleton()->Initialize(msg.interfaceMap);
 
+		logs::info("Successfully initialize OStim API.");
+
 		break;
 	}
 
@@ -41,6 +45,8 @@ static void SKSEMessageHandler(SKSE::MessagingInterface::Message* a_msg)
 		Prisma::load_api();
 
 		SharpInternal::OTalkDuringSex::AddListener();
+
+		SharpInternal::JsFragment::AddListener();
 
 		Prisma::InitializeUI();
 
@@ -95,6 +101,10 @@ bool RegisterPapyrusFunctions(RE::BSScript::Internal::VirtualMachine* a_vm)
 	a_vm->RegisterFunction("SelectByConfig", "OSelector", SelectByConfig);
 
 	SharpInternal::OImmersion::Register(a_vm);
+
+	SharpInternal::OTalkDuringSex::Register(a_vm);
+
+	SharpInternal::OEroticAdventures::Register(a_vm);
 
 	return true;
 }

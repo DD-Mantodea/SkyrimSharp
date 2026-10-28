@@ -1,6 +1,6 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
-    public class bhkUnaryAction : IbhkUnaryAction
+    public struct bhkUnaryAction : IbhkUnaryAction
     {
         public struct Internal
         {

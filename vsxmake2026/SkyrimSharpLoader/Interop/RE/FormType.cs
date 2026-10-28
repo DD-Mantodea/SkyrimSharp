@@ -13,7 +13,7 @@
         TextureSet,                  //	07 TXST	BGSTextureSet
         MenuIcon,                    //	08 MICN	BGSMenuIcon
         Global,                      //	09 GLOB	TESGlobal
-        Class,                       //	0A CLAS	TESClass
+        Class,                       //	0A CLAS	TESstruct
         Faction,                     //	0B FACT	TESFaction
         HeadPart,                    //	0C HDPT	BGSHeadPart
         Eyes,                        //	0D EYES	TESEyes

@@ -2,7 +2,7 @@
 
 namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class hkbCharacterSetup
+    public unsafe struct hkbCharacterSetup
     {
         [StructLayout(LayoutKind.Sequential, Pack = 8, Size = 0x68)]
         public struct Internal

@@ -1,6 +1,6 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class NiNode
+    public unsafe struct NiNode
     {
         public struct Internal
         {

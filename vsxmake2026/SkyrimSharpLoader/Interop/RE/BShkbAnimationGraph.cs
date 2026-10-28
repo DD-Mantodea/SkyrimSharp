@@ -1,6 +1,6 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class BShkbAnimationGraph
+    public unsafe struct BShkbAnimationGraph
     {
         public struct Internal
         {

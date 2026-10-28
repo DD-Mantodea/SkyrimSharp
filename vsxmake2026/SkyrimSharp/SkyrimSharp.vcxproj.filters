@@ -90,6 +90,7 @@ xmake version 3.0.6+HEAD.9fdcf69f6
     <Filter Include="src\runtime">
       <UniqueIdentifier>{A7E09BAE-9A5A-408E-A707-0192663BD03C}</UniqueIdentifier>
     </Filter>
+
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildProjectDirectory)\Xmake.Custom.props">
@@ -102,6 +103,9 @@ xmake version 3.0.6+HEAD.9fdcf69f6
       <Filter>Properties</Filter>
     </None>
     <None Include="$(MSBuildProjectDirectory)\Xmake.Custom.items.filters">
+      <Filter>Properties</Filter>
+    </None>
+    <None Include="$(XmakeScriptDir)\xmake.lua">
       <Filter>Properties</Filter>
     </None>
   </ItemGroup>
@@ -124,7 +128,13 @@ xmake version 3.0.6+HEAD.9fdcf69f6
     <ClInclude Include="$(XmakeProjectDir)\src\internal\Event.h">
       <Filter>src\internal</Filter>
     </ClInclude>
+    <ClInclude Include="$(XmakeProjectDir)\src\internal\Form.h">
+      <Filter>src\internal</Filter>
+    </ClInclude>
     <ClInclude Include="$(XmakeProjectDir)\src\internal\Input.h">
+      <Filter>src\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(XmakeProjectDir)\src\internal\JsFragment.h">
       <Filter>src\internal</Filter>
     </ClInclude>
     <ClInclude Include="$(XmakeProjectDir)\src\internal\Log.h">
@@ -277,8 +287,11 @@ xmake version 3.0.6+HEAD.9fdcf69f6
     <ClInclude Include="$(XmakeProjectDir)\src\utils.h">
       <Filter>src</Filter>
     </ClInclude>
+
+
   </ItemGroup>
   <ItemGroup>
+
     <ClCompile Include="$(XmakeProjectDir)\build\.gens\SkyrimSharp\windows\x64\debug\rules\commonlibsse-ng\plugin\plugin.cpp">
       <Filter>build\.gens\SkyrimSharp\windows\x64\debug\rules\commonlibsse-ng\plugin</Filter>
     </ClCompile>
@@ -294,7 +307,13 @@ xmake version 3.0.6+HEAD.9fdcf69f6
     <ClCompile Include="$(XmakeProjectDir)\src\internal\Event.cpp">
       <Filter>src\internal</Filter>
     </ClCompile>
+    <ClCompile Include="$(XmakeProjectDir)\src\internal\Form.cpp">
+      <Filter>src\internal</Filter>
+    </ClCompile>
     <ClCompile Include="$(XmakeProjectDir)\src\internal\Input.cpp">
+      <Filter>src\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(XmakeProjectDir)\src\internal\JsFragment.cpp">
       <Filter>src\internal</Filter>
     </ClCompile>
     <ClCompile Include="$(XmakeProjectDir)\src\internal\Log.cpp">
@@ -333,8 +352,12 @@ xmake version 3.0.6+HEAD.9fdcf69f6
     <ClCompile Include="$(XmakeProjectDir)\src\utils.cpp">
       <Filter>src</Filter>
     </ClCompile>
+
+
+
   </ItemGroup>
   <ItemGroup>
+
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="$(XmakeProjectDir)\build\.gens\SkyrimSharp\windows\x64\debug\rules\commonlibsse-ng\plugin\version.rc">
@@ -343,6 +366,11 @@ xmake version 3.0.6+HEAD.9fdcf69f6
     <ResourceCompile Include="$(XmakeProjectDir)\build\.gens\SkyrimSharp\windows\x64\releasedbg\rules\commonlibsse-ng\plugin\version.rc">
       <Filter>build\.gens\SkyrimSharp\windows\x64\releasedbg\rules\commonlibsse-ng\plugin</Filter>
     </ResourceCompile>
+
+
+
+
   </ItemGroup>
-  <Import Condition="Exists('$(MSBuildThisFileDirectory)\Xmake.Custom.files.filters')" Project="$(MSBuildThisFileDirectory)\Xmake.Custom.files.filters" />
+  <Import Condition="Exists('$(MSBuildThisFileDirectory)\Xmake.Custom.files.filters')"
+    Project="$(MSBuildThisFileDirectory)\Xmake.Custom.files.filters" />
 </Project>

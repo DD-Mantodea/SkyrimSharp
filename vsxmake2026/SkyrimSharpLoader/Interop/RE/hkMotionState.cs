@@ -23,7 +23,7 @@ namespace SkyrimSharpLoader.Interop.RE
 
         internal hkUFloat8 MaxAngularVelocity;
 
-        internal byte DeactivationClass;
+        internal byte Deactivationstruct;
 
         internal byte padAD;
 

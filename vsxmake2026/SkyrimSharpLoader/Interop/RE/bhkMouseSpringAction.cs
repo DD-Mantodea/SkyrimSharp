@@ -1,6 +1,6 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
-    public class bhkMouseSpringAction : IbhkMouseSpringAction
+    public struct bhkMouseSpringAction : IbhkMouseSpringAction
     {
         public struct Internal
         {

@@ -1,6 +1,6 @@
 ﻿namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class BSTSmallArrayHeapAllocator
+    public unsafe struct BSTSmallArrayHeapAllocator
     {
         public struct Internal
         {

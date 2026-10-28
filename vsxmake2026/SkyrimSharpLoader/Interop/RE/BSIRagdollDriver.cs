@@ -3,7 +3,7 @@ using SkyrimSharpLoader.Interop.NativeStructures;
 
 namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class BSIRagdollDriver
+    public unsafe struct BSIRagdollDriver
     {
         public struct Internal
         {

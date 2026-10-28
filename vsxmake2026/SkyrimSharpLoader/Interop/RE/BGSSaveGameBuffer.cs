@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace SkyrimSharpLoader.Interop.RE
 {
-    public unsafe class BGSSaveGameBuffer
+    public unsafe struct BGSSaveGameBuffer
     {
         [StructLayout(LayoutKind.Sequential, Pack = 8, Size = 0x18)]
         public struct Internal

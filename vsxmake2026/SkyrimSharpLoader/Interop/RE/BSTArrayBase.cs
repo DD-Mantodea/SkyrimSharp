@@ -1,14 +1,14 @@
-﻿using SkyrimSharpLoader.Interop.Extensions;
+using SkyrimSharpLoader.Interop.Extensions;
 using System.Runtime.InteropServices;
 
 namespace SkyrimSharpLoader.Interop.RE
 {
     public unsafe readonly struct BSTArrayBase : IBSTArrayBase
     {
-        [StructLayout(LayoutKind.Sequential, Size = 0x4)]
+        [StructLayout(LayoutKind.Sequential)]
         public struct Internal
         {
-            [StructLayout(LayoutKind.Sequential, Size = 0x8)]
+            [StructLayout(LayoutKind.Sequential)]
             public struct IAllocatorFunctor
             {
                 internal void** Vtable;
@@ -21,9 +21,7 @@ namespace SkyrimSharpLoader.Interop.RE
                 internal void Deallocate() => this.CallVoidVirt(2, Vtable);
             }
 
-            internal void** Vtable;
-
-            private uint Size;
+            internal uint Size;
         }
     }
 

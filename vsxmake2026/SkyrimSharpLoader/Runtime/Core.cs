@@ -1,6 +1,7 @@
 ﻿using SkyrimSharpLoader.Compat.OStim;
 using SkyrimSharpLoader.Compat.OStim.OSceneSelector;
 using SkyrimSharpLoader.Internal;
+using SkyrimSharpLoader.Internal.JsDetector;
 using SkyrimSharpLoader.Runtime.ModLoader;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -20,11 +21,17 @@ namespace SkyrimSharpLoader.Runtime
 
                 OStim.Initialize();
 
-                Logger.Info("OStim compat initialized");
+                Logger.Info("OStim compat initialized.");
 
                 OSceneSelector.Initialize();
 
-                Logger.Info("OSceneSelector compat initialized");
+                Logger.Info("OSceneSelector compat initialized.");
+
+                JsFragment.Initialize();
+
+                Logger.Info("JsFragment initialized.");
+
+                JsDetector.Detect();
             }
             catch (Exception e)
             {

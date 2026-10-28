@@ -4,6 +4,8 @@ namespace SharpInternal::OEroticAdventures
 {
 	void StartKeyScene(RE::StaticFunctionTag*, vector<RE::Actor*> actors, string listenerID, string sceneID, RE::TESObjectREFR* furniture)
 	{
+		Log::infoS("Start key scene: " + sceneID);
+
 		auto threadAPI = ThreadAPI::GetSingleton();
 
 		auto builder = threadAPI->CreateBuilder(actors);
@@ -26,6 +28,8 @@ namespace SharpInternal::OEroticAdventures
 
 	void StartDailyScene(RE::StaticFunctionTag*, vector<RE::Actor*> actors, string listenerID, string sceneID, int type, RE::TESObjectREFR* furniture)
 	{
+		Log::infoS("Start daily scene: " + sceneID);
+
 		auto threadAPI = ThreadAPI::GetSingleton();
 
 		auto builder = threadAPI->CreateBuilder(actors);
@@ -42,6 +46,29 @@ namespace SharpInternal::OEroticAdventures
 
 		if (furniture)
 			builder->setFurniture((void*)furniture);
+
+		builder->start();
+	}
+
+	void StartLieOnBedScene(RE::StaticFunctionTag*, vector<RE::Actor*> actors, string listenerID, RE::TESObjectREFR* bed)
+	{
+		Log::infoS("Start lie-on-bed scene");
+
+		auto threadAPI = ThreadAPI::GetSingleton();
+
+		auto builder = threadAPI->CreateBuilder(actors);
+
+		builder->noPlayerControl();
+
+		builder->noUndressing();
+
+		auto metadata = format("{},EroticAdventures,LieOnBed", listenerID);
+
+		builder->setMetadataCSV(metadata.c_str());
+
+		builder->setStartingNode("");
+
+		builder->setFurniture((void*)bed);
 
 		builder->start();
 	}

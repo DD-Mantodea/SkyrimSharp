@@ -2,6 +2,7 @@
 using SkyrimSharpLoader.Compat.OStim.OStimStructures;
 using SkyrimSharpLoader.Extensions;
 using SkyrimSharpLoader.Internal;
+using SkyrimSharpLoader.Runtime;
 using System.Runtime.CompilerServices;
 using static System.Formats.Asn1.AsnWriter;
 
@@ -11,22 +12,17 @@ namespace SkyrimSharpLoader.Compat.OStim.OSceneSelector
     {
         public static List<OSceneConfig> SceneConfigs = [];
 
-        public static string ConfigsPath = Path.Combine(OStim.OStimPath, "SceneConfigs");
-
         public static void Initialize()
         {
-            if (!Directory.Exists(ConfigsPath))
-                Directory.CreateDirectory(ConfigsPath);
-
             LoadConfigs();
         }
 
         public static void LoadConfigs()
         {
-            if (!Directory.Exists(ConfigsPath))
-                return;
+            if (!Directory.Exists(Pathes.OSelectorConfigsPath))
+                Directory.CreateDirectory(Pathes.OSelectorConfigsPath);
 
-            var configs = Directory.GetFiles(ConfigsPath, "*.json", SearchOption.AllDirectories);
+            var configs = Directory.GetFiles(Pathes.OSelectorConfigsPath, "*.json", SearchOption.AllDirectories);
 
             foreach (var configFile in configs)
             {

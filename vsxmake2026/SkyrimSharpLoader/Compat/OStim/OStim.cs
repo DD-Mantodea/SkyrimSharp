@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SkyrimSharpLoader.Compat.OStim.OStimStructures;
 using SkyrimSharpLoader.Internal;
-using static System.Formats.Asn1.AsnWriter;
+using SkyrimSharpLoader.Runtime;
 
 namespace SkyrimSharpLoader.Compat.OStim
 {
@@ -10,8 +10,6 @@ namespace SkyrimSharpLoader.Compat.OStim
         public static List<OStimScene> Scenes = [];
 
         public static List<OStimAction> Actions = [];
-
-        public static string OStimPath = Path.Combine(Environment.CurrentDirectory, "Data\\SKSE\\Plugins\\Ostim");
 
         public static void Initialize()
         {
@@ -22,7 +20,7 @@ namespace SkyrimSharpLoader.Compat.OStim
 
         public static void LoadScenes()
         {
-            var scenesPath = Path.Combine(OStimPath, "scenes");
+            var scenesPath = Path.Combine(Pathes.OStimPath, "scenes");
 
             if (!Path.Exists(scenesPath))
                 return;
@@ -57,7 +55,7 @@ namespace SkyrimSharpLoader.Compat.OStim
 
         public static void LoadActions()
         {
-            var actionsPath = Path.Combine(OStimPath, "actions");
+            var actionsPath = Path.Combine(Pathes.OStimPath, "actions");
 
             if (!Path.Exists(actionsPath))
                 return;
